@@ -24,8 +24,9 @@ dist-ssr
 *.sw?
 
 # Env / Firebase
-.env
-.env.*
-!.env.example
+# .env 의 Firebase 웹 설정값은 공개용이라 저장소에 포함합니다.
+# 진짜 비밀 값(API 비밀키 등)은 .env.local 에 넣으세요. (저장소에 안 올라감)
+.env.local
+.env.*.local
 .firebase/
 .firebaserc
