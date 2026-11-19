@@ -1,0 +1,66 @@
+@import 'tailwindcss';
+@import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
+
+/*
+ * 디자인 토큰
+ * - 색은 모두 여기 CSS 변수로 관리합니다.
+ * - 나중에 테마를 추가할 때는 [data-theme='winter'] { --arc-accent: ... } 처럼 값만 덮어쓰면 됩니다.
+ */
+:root {
+  --arc-bg: #000000;
+  --arc-surface: #0c0c0e;
+  --arc-surface-2: #16161a;
+  --arc-line: #24242a;
+  --arc-text: #f4f4f6;
+  --arc-muted: #8b8b96;
+  --arc-accent: #ff7a1a;
+  --arc-danger: #ff4d4f;
+
+  color-scheme: dark;
+}
+
+/* Tailwind 유틸리티 이름과 토큰 연결: bg-bg, bg-surface, text-muted, border-line, text-accent ... */
+@theme inline {
+  --color-bg: var(--arc-bg);
+  --color-surface: var(--arc-surface);
+  --color-surface-2: var(--arc-surface-2);
+  --color-line: var(--arc-line);
+  --color-text: var(--arc-text);
+  --color-muted: var(--arc-muted);
+  --color-accent: var(--arc-accent);
+  --color-danger: var(--arc-danger);
+
+  --font-sans: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
+    'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+}
+
+html,
+body {
+  background: var(--arc-bg);
+  color: var(--arc-text);
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/*
+ * 위젯 배치
+ * - 모바일(기본): 1열, --m-order 순서대로 쌓임
+ * - PC(lg 이상): 3열 그리드, --col / --row 위치에 고정
+ * 위치 값은 src/widgets/registry.ts 에서 관리합니다.
+ */
+.widget-slot {
+  order: var(--m-order);
+}
+
+@media (min-width: 1024px) {
+  .widget-slot {
+    order: 0;
+    grid-column: var(--col);
+    grid-row: var(--row);
+  }
+}

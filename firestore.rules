@@ -1,0 +1,18 @@
+rules_version = '2';
+
+// 1인용 앱: 본인 UID만 자기 데이터(users/{uid} 아래 전체)에 접근할 수 있습니다.
+// 첫 로그인 후 화면에 표시되는 내 UID로 'ALLOWED_UID'를 바꾸고 규칙을 배포하세요. (README 참고)
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isOwner(uid) {
+      return request.auth != null
+        && request.auth.uid == uid
+        && uid == 'ALLOWED_UID';
+    }
+
+    // {document=**} 는 users/{uid} 문서 자체와 그 아래 모든 하위 컬렉션을 포함합니다.
+    match /users/{uid}/{document=**} {
+      allow read, write: if isOwner(uid);
+    }
+  }
+}
