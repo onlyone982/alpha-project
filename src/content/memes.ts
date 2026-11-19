@@ -25,3 +25,13 @@ export const emptyQuit = '아직 끊는 게 없음. 너무 완벽한 거 아님?
 export function pickRandom<T>(items: readonly T[]): T {
   return items[Math.floor(Math.random() * items.length)]
 }
+
+/** 히어로 스트릭 안내 */
+export const streakHint = (current: number, todayRecorded: boolean) =>
+  todayRecorded ? `오늘 기록 완료. ${current}일 연속 🔥` : `오늘 기록하면 ${current + 1}일 연속`
+
+/** 할일이 없을 때 */
+export const emptyTodos = '할일 0개. 자유인가, 계획이 없는 건가 🤔'
+
+/** 한 줄 일지 입력칸 */
+export const journalPlaceholder = '오늘 한 줄. 대충 써도 됨.'

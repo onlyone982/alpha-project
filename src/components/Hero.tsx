@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { useAuth } from '../auth/AuthContext'
+import { streakHint } from '../content/memes'
+import { useStreak } from '../data/activityRepo'
 import { useNow } from '../hooks/useNow'
 import { useUpdateStartAt, useUserProfile } from '../hooks/useUserProfile'
-import { formatSeoul } from '../lib/date'
+import { formatSeoul, toDayKey } from '../lib/date'
 import { dayNumber, elapsedParts } from '../lib/dayCounter'
 import { pad2 } from '../lib/format'
 import { usePrivacy } from '../privacy/PrivacyContext'
@@ -10,7 +12,7 @@ import { StartAtEditor } from './StartAtEditor'
 
 const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토']
 
-/** 최상단 히어로: DAY 카운터, 현재 시각, 프라이버시 모드. (스트릭은 3단계, SOS는 4단계) */
+/** 최상단 히어로: DAY 카운터, 현재 시각, 기록 스트릭, 프라이버시 모드. (SOS는 4단계) */
 export function Hero() {
   const now = useNow()
   const { isPreview, signOut } = useAuth()
@@ -18,6 +20,7 @@ export function Hero() {
   const updateStartAt = useUpdateStartAt()
   const { privacy, toggle } = usePrivacy()
   const [editing, setEditing] = useState(false)
+  const streak = useStreak(toDayKey(now))
 
   const startAt = profile?.startAt ?? null
   const day = startAt ? dayNumber(startAt, now) : null
@@ -30,15 +33,21 @@ export function Hero() {
         <time dateTime={now.toISOString()} className="tabular-nums">
           {formatSeoul(now, 'yyyy.MM.dd')} ({weekday}) {formatSeoul(now, 'HH:mm:ss')}
         </time>
-        <div className="flex items-center gap-2">
-          <span className="rounded-full border border-line px-2.5 py-1 tabular-nums" title="연속 기록 (3단계)">
-            🔥 0 · 🧊 0
+        <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm">
+          <span
+            className={`whitespace-nowrap rounded-full border px-2.5 py-1 tabular-nums ${
+              streak.todayRecorded ? 'border-accent/60 text-text' : 'border-line'
+            }`}
+            title={streakHint(streak.current, streak.todayRecorded)}
+          >
+            <span className={streak.todayRecorded ? '' : 'grayscale'}>🔥</span> {streak.current} · 🧊 {streak.freezes}
+            {!streak.todayRecorded && <span className="ml-1.5 hidden text-xs sm:inline">오늘 기록하면 {streak.current + 1}</span>}
           </span>
           <button
             type="button"
             onClick={toggle}
             aria-pressed={privacy}
-            className={`rounded-full border px-2.5 py-1 transition-colors ${
+            className={`whitespace-nowrap rounded-full border px-2.5 py-1 transition-colors ${
               privacy ? 'border-accent text-accent' : 'border-line hover:bg-surface-2 hover:text-text'
             }`}
           >
@@ -47,7 +56,7 @@ export function Hero() {
           <button
             type="button"
             onClick={signOut}
-            className="rounded-full border border-line px-2.5 py-1 transition-colors hover:bg-surface-2 hover:text-text"
+            className="whitespace-nowrap rounded-full border border-line px-2.5 py-1 transition-colors hover:bg-surface-2 hover:text-text"
           >
             {isPreview ? '미리보기 종료' : '로그아웃'}
           </button>

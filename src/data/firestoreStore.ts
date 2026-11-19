@@ -4,7 +4,10 @@ import {
   deleteDoc,
   doc,
   onSnapshot,
+  query,
+  setDoc,
   updateDoc,
+  where as whereFilter,
   type Firestore,
 } from 'firebase/firestore'
 import type { DataStore } from './store'
@@ -26,6 +29,13 @@ export function createFirestoreStore(db: Firestore, uid: string): DataStore {
         onError,
       )
     },
+    subscribeWhere(collectionPath, where, onChange, onError) {
+      return onSnapshot(
+        query(colRef(collectionPath), whereFilter(where.field, '==', where.value)),
+        (snap) => onChange(snap.docs.map((d) => ({ ...d.data(), id: d.id }))),
+        onError,
+      )
+    },
     async add(collectionPath, data) {
       const ref = await addDoc(colRef(collectionPath), data)
       return ref.id
@@ -35,6 +45,9 @@ export function createFirestoreStore(db: Firestore, uid: string): DataStore {
     },
     async remove(docPath) {
       await deleteDoc(docRef(docPath))
+    },
+    async set(docPath, data) {
+      await setDoc(docRef(docPath), data, { merge: true })
     },
   }
 }

@@ -36,6 +36,9 @@ export function createMemoryStore(seed: Record<string, DocData> = {}): DataStore
     subscribeCollection(collectionPath, onChange) {
       return listen(() => onChange(childrenOf(collectionPath)))
     },
+    subscribeWhere(collectionPath, where, onChange) {
+      return listen(() => onChange(childrenOf(collectionPath).filter((d) => d[where.field] === where.value)))
+    },
     async add(collectionPath, data) {
       const id = `mem${++counter}`
       docs.set(`${collectionPath}/${id}`, structuredClone(data))
@@ -50,6 +53,10 @@ export function createMemoryStore(seed: Record<string, DocData> = {}): DataStore
     },
     async remove(docPath) {
       docs.delete(docPath)
+      notify()
+    },
+    async set(docPath, data) {
+      docs.set(docPath, { ...(docs.get(docPath) ?? {}), ...structuredClone(data) })
       notify()
     },
   }

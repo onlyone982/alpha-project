@@ -1,4 +1,5 @@
 import { DEFAULT_SETTINGS, DEFAULT_STREAK } from '../lib/userProfile'
+import { toDayKey } from '../lib/date'
 import type { DocData } from './store'
 
 const DAY = 24 * 60 * 60 * 1000
@@ -6,6 +7,7 @@ const DAY = 24 * 60 * 60 * 1000
 /** 미리보기 모드에서 보여줄 예시 데이터 */
 export function createPreviewSeed(now: Date): Record<string, DocData> {
   const ago = (days: number, hours = 0) => new Date(now.getTime() - days * DAY - hours * 3_600_000)
+  const dayKey = (daysAgo: number) => toDayKey(ago(daysAgo))
   return {
     '': {
       startAt: ago(46, 5),
@@ -48,7 +50,23 @@ export function createPreviewSeed(now: Date): Record<string, DocData> {
       archived: false,
       createdAt: ago(5, 8),
     },
+    ...activitySeed(now),
+    [`todos/t1`]: { date: dayKey(1), text: '헬스장 등록 알아보기', done: false, doneAt: null, order: 1, createdAt: ago(1) },
+    [`todos/t2`]: { date: dayKey(1), text: '책 20쪽', done: true, doneAt: ago(1), order: 2, createdAt: ago(1) },
+    [`todos/t3`]: { date: dayKey(0), text: '물 2L 마시기', done: false, doneAt: null, order: 1, createdAt: now },
+    [`journal/${dayKey(1)}`]: { text: '회의 길었지만 운동은 함. 칭찬해.', mood: 4, updatedAt: ago(1) },
     'wishlist/w1': { name: '향수 (우디 계열)', price: 250000, url: '', purchasedAt: null, createdAt: ago(10) },
     'wishlist/w2': { name: '러닝화', price: 129000, url: '', purchasedAt: null, createdAt: ago(9) },
   }
+}
+
+/** 예시 기록: 16~9일 전 8일 연속(프리즈 1개 획득) → 8일 전 빠짐(프리즈 사용) → 7~1일 전 연속 */
+function activitySeed(now: Date): Record<string, DocData> {
+  const seed: Record<string, DocData> = {}
+  for (let daysAgo = 16; daysAgo >= 1; daysAgo--) {
+    if (daysAgo === 8) continue
+    const at = new Date(now.getTime() - daysAgo * DAY)
+    seed[`activityDays/${toDayKey(at)}`] = { recorded: true, lastAt: at }
+  }
+  return seed
 }

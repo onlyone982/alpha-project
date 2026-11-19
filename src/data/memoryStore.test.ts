@@ -44,4 +44,19 @@ describe('memoryStore', () => {
     store.subscribeCollection('x', (d) => (docs = d))
     expect(docs[0].at).toEqual(at)
   })
+
+  it('subscribeWhere 와 set(merge)', async () => {
+    const store = createMemoryStore()
+    await store.add('todos', { date: '2026-11-20', text: 'a' })
+    await store.add('todos', { date: '2026-11-21', text: 'b' })
+    let docs: StoredDoc[] = []
+    store.subscribeWhere('todos', { field: 'date', value: '2026-11-20' }, (d) => (docs = d))
+    expect(docs.map((d) => d.text)).toEqual(['a'])
+
+    await store.set('journal/2026-11-20', { text: '좋은 날', mood: 4 })
+    await store.set('journal/2026-11-20', { mood: 5 })
+    let journal: unknown
+    store.subscribeDoc('journal/2026-11-20', (d) => (journal = d))
+    expect(journal).toEqual({ text: '좋은 날', mood: 5 })
+  })
 })
