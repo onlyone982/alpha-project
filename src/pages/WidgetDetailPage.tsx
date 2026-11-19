@@ -18,7 +18,9 @@ export function WidgetDetailPage() {
         </span>
         {widget.title}
       </h1>
-      <p className="mt-3 text-muted">전체 기록과 편집 화면이 여기에 들어갈 예정이에요.</p>
+      <div className="mt-6">
+        {widget.detail ? <widget.detail /> : <p className="text-muted">전체 기록과 편집 화면이 여기에 들어갈 예정이에요.</p>}
+      </div>
     </main>
   )
 }

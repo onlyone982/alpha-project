@@ -94,11 +94,14 @@ VITE_FIREBASE_APP_ID=1:1234567890:web:abcdef...
 ```
 src/
   auth/        로그인 상태 (AuthProvider, RequireAuth)
-  components/  공용 화면 조각 (Hero, WidgetGrid)
+  components/  공용 화면 조각 (Hero, WidgetGrid, ui 스타일 묶음)
+  content/     직접 고치기 쉬운 문구 (밈 문구 memes.ts, 끊기 프리셋)
+  data/        저장소 (Firebase / 미리보기용 메모리) + 데이터 읽기·쓰기
   hooks/       React 훅 (useNow, useUserProfile)
   lib/         UI와 분리된 순수 로직 + Firebase (나중에 앱으로 옮길 때 재사용)
   pages/       페이지 (로그인, 대시보드, 위젯 상세, 접근 설정)
-  widgets/     위젯 컴포넌트 + registry.ts (위치/순서 관리)
+  privacy/     프라이버시 모드 (민감 항목 가리기)
+  widgets/     위젯 컴포넌트 + registry.ts (위치/순서 관리), 위젯별 상세 화면 폴더
 ```
 
 위젯 위치를 바꾸려면 `src/widgets/registry.ts`의 `desktop`(PC 칸)과 `mobileOrder`(모바일 순서)만 고치면 됩니다.

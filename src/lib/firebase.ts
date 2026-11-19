@@ -1,6 +1,6 @@
 import { initializeApp, type FirebaseApp } from 'firebase/app'
 import { getAuth, type Auth } from 'firebase/auth'
-import { getFirestore, type Firestore } from 'firebase/firestore'
+import { initializeFirestore, type Firestore } from 'firebase/firestore'
 import { getStorage, type FirebaseStorage } from 'firebase/storage'
 
 const config = {
@@ -29,7 +29,8 @@ export const firebase: FirebaseServices | null = isFirebaseConfigured
       return {
         app,
         auth: getAuth(app),
-        db: getFirestore(app),
+        // undefined 필드는 무시하고 저장 (선택 입력값 때문에 저장이 실패하지 않도록)
+        db: initializeFirestore(app, { ignoreUndefinedProperties: true }),
         storage: getStorage(app),
       }
     })()

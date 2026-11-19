@@ -64,3 +64,11 @@ body {
     grid-row: var(--row);
   }
 }
+
+/* 프라이버시 모드: 민감 항목 가리기 */
+.privacy-blur {
+  display: inline-block;
+  filter: blur(7px);
+  user-select: none;
+  pointer-events: none;
+}

@@ -8,12 +8,15 @@ import { StickyNotesWidget } from './StickyNotesWidget'
 import { TodayWidget } from './TodayWidget'
 import { WeeklyNewspaperWidget } from './WeeklyNewspaperWidget'
 import { WorkoutWidget } from './WorkoutWidget'
+import { QuitDetail } from './quit/QuitDetail'
 
 export type WidgetDefinition = {
   id: string
   title: string
   emoji: string
   component: ComponentType
+  /** '전체 보기' 상세 화면. 아직 없으면 생략 */
+  detail?: ComponentType
   /** PC(3열 그리드)에서의 위치. col: 1=좌, 2=가운데, 3=우 / row: 1=상단, 2=중간, 3=하단 */
   desktop: { col: 1 | 2 | 3; row: 1 | 2 | 3 }
   /** 모바일(1열)에서 쌓이는 순서. 작을수록 위. 히어로는 항상 맨 위라서 여기 없음 */
@@ -28,7 +31,7 @@ export const WIDGETS: WidgetDefinition[] = [
   // ── 상단
   { id: 'weekly', title: '주간지', emoji: '📰', component: WeeklyNewspaperWidget, desktop: { col: 1, row: 1 }, mobileOrder: 7 },
   { id: 'today', title: '오늘', emoji: '✅', component: TodayWidget, desktop: { col: 2, row: 1 }, mobileOrder: 1 },
-  { id: 'quit', title: '끊기 카운터', emoji: '🚭', component: QuitCounterWidget, desktop: { col: 3, row: 1 }, mobileOrder: 2 },
+  { id: 'quit', title: '끊기 카운터', emoji: '🚭', component: QuitCounterWidget, detail: QuitDetail, desktop: { col: 3, row: 1 }, mobileOrder: 2 },
   // ── 중간
   { id: 'notes', title: '스티커 메모', emoji: '🗒', component: StickyNotesWidget, desktop: { col: 1, row: 2 }, mobileOrder: 9 },
   { id: 'video', title: '동기부여 영상', emoji: '▶️', component: MotivationVideoWidget, desktop: { col: 2, row: 2 }, mobileOrder: 4 },

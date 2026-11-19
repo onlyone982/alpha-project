@@ -1,13 +1,5 @@
-import {
-  doc,
-  getDoc,
-  onSnapshot,
-  serverTimestamp,
-  setDoc,
-  type DocumentData,
-  type Firestore,
-  type Unsubscribe,
-} from 'firebase/firestore'
+import { doc, getDoc, serverTimestamp, setDoc, type DocumentData, type Firestore } from 'firebase/firestore'
+import { toDate } from '../data/store'
 
 /** Firestore users/{uid} 문서를 앱에서 쓰기 좋게 변환한 형태 */
 export type UserProfile = {
@@ -60,13 +52,6 @@ export function createDefaultProfile(startAt: Date | null): UserProfile {
   }
 }
 
-function toDate(value: unknown): Date | null {
-  if (value && typeof value === 'object' && 'toDate' in value) {
-    return (value as { toDate: () => Date }).toDate()
-  }
-  return null
-}
-
 /** Firestore 원본 데이터 → UserProfile. 빠진 필드는 기본값으로 채웁니다. */
 export function parseProfile(data: DocumentData): UserProfile {
   return {
@@ -92,17 +77,4 @@ export async function ensureUserProfile(db: Firestore, uid: string): Promise<voi
     startAt: serverTimestamp(),
     createdAt: serverTimestamp(),
   })
-}
-
-export function subscribeUserProfile(
-  db: Firestore,
-  uid: string,
-  onChange: (profile: UserProfile | null) => void,
-  onError: (error: Error) => void,
-): Unsubscribe {
-  return onSnapshot(
-    userDoc(db, uid),
-    (snap) => onChange(snap.exists() ? parseProfile(snap.data()) : null),
-    onError,
-  )
 }

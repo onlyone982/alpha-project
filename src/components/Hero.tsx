@@ -1,16 +1,27 @@
+import { useState } from 'react'
 import { useAuth } from '../auth/AuthContext'
 import { useNow } from '../hooks/useNow'
+import { useUpdateStartAt, useUserProfile } from '../hooks/useUserProfile'
 import { formatSeoul } from '../lib/date'
+import { dayNumber, elapsedParts } from '../lib/dayCounter'
+import { pad2 } from '../lib/format'
+import { usePrivacy } from '../privacy/PrivacyContext'
+import { StartAtEditor } from './StartAtEditor'
 
 const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토']
 
-/**
- * 최상단 히어로.
- * DAY 카운터, SOS, 프라이버시 모드는 2단계 / 스트릭은 3단계에서 실제로 연결됩니다.
- */
+/** 최상단 히어로: DAY 카운터, 현재 시각, 프라이버시 모드. (스트릭은 3단계, SOS는 4단계) */
 export function Hero() {
   const now = useNow()
-  const { user, isPreview, signOut } = useAuth()
+  const { isPreview, signOut } = useAuth()
+  const { profile } = useUserProfile()
+  const updateStartAt = useUpdateStartAt()
+  const { privacy, toggle } = usePrivacy()
+  const [editing, setEditing] = useState(false)
+
+  const startAt = profile?.startAt ?? null
+  const day = startAt ? dayNumber(startAt, now) : null
+  const parts = startAt ? elapsedParts(startAt, now) : null
   const weekday = WEEKDAYS[Number(formatSeoul(now, 'i')) % 7]
 
   return (
@@ -25,11 +36,13 @@ export function Hero() {
           </span>
           <button
             type="button"
-            disabled
-            title="2단계에서 구현"
-            className="rounded-full border border-line px-2.5 py-1 disabled:opacity-50"
+            onClick={toggle}
+            aria-pressed={privacy}
+            className={`rounded-full border px-2.5 py-1 transition-colors ${
+              privacy ? 'border-accent text-accent' : 'border-line hover:bg-surface-2 hover:text-text'
+            }`}
           >
-            🙈 프라이버시
+            {privacy ? '🙈 가림 켜짐' : '👀 프라이버시'}
           </button>
           <button
             type="button"
@@ -44,12 +57,33 @@ export function Hero() {
       <div className="mt-6 flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-5xl font-black tracking-tight sm:text-7xl">
-            <span aria-hidden>🔥 </span>DAY <span className="text-accent">—</span>
+            <span aria-hidden>🔥 </span>DAY <span className="text-accent tabular-nums">{day ?? '—'}</span>
           </p>
-          <p className="mt-2 text-sm text-muted">
-            since ― · 시작 일시와 경과 시간은 2단계에서 연결돼요
-            {user?.displayName ? ` · ${user.displayName}` : ''}
+          {parts && (
+            <p className="mt-2 font-mono text-lg tabular-nums text-text sm:text-xl" aria-label="시작 후 경과 시간">
+              {parts.days}일 {pad2(parts.hours)}:{pad2(parts.minutes)}:{pad2(parts.seconds)}
+            </p>
+          )}
+          <p className="mt-1 text-sm text-muted">
+            since {startAt ? formatSeoul(startAt, 'yyyy.MM.dd HH:mm') : '―'}
+            <button
+              type="button"
+              onClick={() => setEditing((v) => !v)}
+              className="ml-2 rounded px-1.5 py-0.5 text-xs hover:bg-surface-2 hover:text-text"
+            >
+              ✎ 수정
+            </button>
           </p>
+          {editing && (
+            <StartAtEditor
+              value={startAt}
+              onCancel={() => setEditing(false)}
+              onSave={async (date) => {
+                await updateStartAt(date)
+                setEditing(false)
+              }}
+            />
+          )}
         </div>
         <button
           type="button"

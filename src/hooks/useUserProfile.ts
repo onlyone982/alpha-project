@@ -1,33 +1,17 @@
-import { useEffect, useState } from 'react'
-import { useAuth } from '../auth/AuthContext'
-import { firebase } from '../lib/firebase'
-import { createDefaultProfile, subscribeUserProfile, type UserProfile } from '../lib/userProfile'
-
-const PREVIEW_PROFILE = createDefaultProfile(null)
-
-type Loaded = { uid: string; profile: UserProfile | null }
+import { useMemo } from 'react'
+import { useStore } from '../data/DataStoreContext'
+import { useDoc } from '../data/hooks'
+import { parseProfile, type UserProfile } from '../lib/userProfile'
 
 /** 로그인한 사용자의 프로필(users/{uid})을 실시간으로 구독합니다. */
 export function useUserProfile(): { profile: UserProfile | null; loading: boolean } {
-  const { user, isPreview } = useAuth()
-  const uid = isPreview ? null : (user?.uid ?? null)
-  const [loaded, setLoaded] = useState<Loaded | null>(null)
+  const { data, loading } = useDoc('')
+  const profile = useMemo(() => (data ? parseProfile(data) : null), [data])
+  return { profile, loading }
+}
 
-  useEffect(() => {
-    if (!firebase || !uid) return
-    return subscribeUserProfile(
-      firebase.db,
-      uid,
-      (profile) => setLoaded({ uid, profile }),
-      (error) => {
-        console.error('프로필을 불러오지 못했어요', error)
-        setLoaded({ uid, profile: null })
-      },
-    )
-  }, [uid])
-
-  if (isPreview) return { profile: PREVIEW_PROFILE, loading: false }
-  // 다른 계정의 이전 값이 남아 있으면 아직 로딩 중으로 취급
-  if (!loaded || loaded.uid !== uid) return { profile: null, loading: true }
-  return { profile: loaded.profile, loading: false }
+/** 변하기 시작한 날짜/시간 수정 */
+export function useUpdateStartAt() {
+  const store = useStore()
+  return (startAt: Date) => store?.update('', { startAt })
 }
