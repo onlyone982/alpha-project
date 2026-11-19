@@ -8,11 +8,12 @@ import { formatSeoul, toDayKey } from '../lib/date'
 import { dayNumber, elapsedParts } from '../lib/dayCounter'
 import { pad2 } from '../lib/format'
 import { usePrivacy } from '../privacy/PrivacyContext'
+import { SosButton } from '../sos/SosButton'
 import { StartAtEditor } from './StartAtEditor'
 
 const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토']
 
-/** 최상단 히어로: DAY 카운터, 현재 시각, 기록 스트릭, 프라이버시 모드. (SOS는 4단계) */
+/** 최상단 히어로: DAY 카운터, 현재 시각, 기록 스트릭, 프라이버시 모드, SOS */
 export function Hero() {
   const now = useNow()
   const { isPreview, signOut } = useAuth()
@@ -94,14 +95,7 @@ export function Hero() {
             />
           )}
         </div>
-        <button
-          type="button"
-          disabled
-          title="4단계에서 구현"
-          className="rounded-xl bg-danger px-5 py-3 text-base font-bold text-white disabled:opacity-60"
-        >
-          🆘 SOS
-        </button>
+        <SosButton />
       </div>
     </header>
   )

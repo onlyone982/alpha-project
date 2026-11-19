@@ -35,3 +35,21 @@ export const emptyTodos = '할일 0개. 자유인가, 계획이 없는 건가 �
 
 /** 한 줄 일지 입력칸 */
 export const journalPlaceholder = '오늘 한 줄. 대충 써도 됨.'
+
+/** SOS 에서 버텼을 때 */
+export const sosResisted: string[] = [
+  '충동 상대로 1승 추가. 이게 진짜 근력 운동이다 💪',
+  '방금 미래의 너가 고맙다고 함.',
+  'boss fight cleared. 경험치 +100 🎮',
+  '버텼다. 그거면 됐다. 오늘의 MVP 🏆',
+  '파도 지나감. 넌 아직 서 있음 🌊',
+]
+
+/** SOS 화면 첫 문구 */
+export const sosIntro = '괜찮아. 60초만 같이 버텨보자.'
+
+/** 영상이 없을 때 */
+export const emptyVideos = '아직 저장한 영상 없음. 나를 움직이는 영상 하나만 넣어두자.'
+
+/** 메모가 없을 때 */
+export const emptyNotes = '머릿속에 떠다니는 거 여기 붙여두기.'

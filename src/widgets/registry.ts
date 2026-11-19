@@ -10,6 +10,9 @@ import { WeeklyNewspaperWidget } from './WeeklyNewspaperWidget'
 import { WorkoutWidget } from './WorkoutWidget'
 import { QuitDetail } from './quit/QuitDetail'
 import { TodayDetail } from './today/TodayDetail'
+import { NotesDetail } from './notes/NotesDetail'
+import { QuoteDetail } from './quote/QuoteDetail'
+import { VideoDetail } from './video/VideoDetail'
 
 export type WidgetDefinition = {
   id: string
@@ -34,12 +37,12 @@ export const WIDGETS: WidgetDefinition[] = [
   { id: 'today', title: '오늘', emoji: '✅', component: TodayWidget, detail: TodayDetail, desktop: { col: 2, row: 1 }, mobileOrder: 1 },
   { id: 'quit', title: '끊기 카운터', emoji: '🚭', component: QuitCounterWidget, detail: QuitDetail, desktop: { col: 3, row: 1 }, mobileOrder: 2 },
   // ── 중간
-  { id: 'notes', title: '스티커 메모', emoji: '🗒', component: StickyNotesWidget, desktop: { col: 1, row: 2 }, mobileOrder: 9 },
-  { id: 'video', title: '동기부여 영상', emoji: '▶️', component: MotivationVideoWidget, desktop: { col: 2, row: 2 }, mobileOrder: 4 },
+  { id: 'notes', title: '스티커 메모', emoji: '🗒', component: StickyNotesWidget, detail: NotesDetail, desktop: { col: 1, row: 2 }, mobileOrder: 9 },
+  { id: 'video', title: '동기부여 영상', emoji: '▶️', component: MotivationVideoWidget, detail: VideoDetail, desktop: { col: 2, row: 2 }, mobileOrder: 4 },
   { id: 'outfit', title: '오늘의 착장', emoji: '👕', component: OutfitWidget, desktop: { col: 3, row: 2 }, mobileOrder: 5 },
   // ── 하단
   { id: 'badges', title: '배지 진열장', emoji: '🏅', component: BadgeShelfWidget, desktop: { col: 1, row: 3 }, mobileOrder: 8 },
-  { id: 'quote', title: '좌우명 & 오늘의 명언', emoji: '💬', component: QuoteWidget, desktop: { col: 2, row: 3 }, mobileOrder: 3 },
+  { id: 'quote', title: '좌우명 & 오늘의 명언', emoji: '💬', component: QuoteWidget, detail: QuoteDetail, desktop: { col: 2, row: 3 }, mobileOrder: 3 },
   { id: 'workout', title: '운동 기록', emoji: '💪', component: WorkoutWidget, desktop: { col: 3, row: 3 }, mobileOrder: 6 },
 ]
 

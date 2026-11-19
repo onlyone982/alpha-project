@@ -5,6 +5,7 @@ import { useQuitData } from '../data/useQuitData'
 import { useNow } from '../hooks/useNow'
 import { formatMinutes, formatWon } from '../lib/format'
 import { Sensitive } from '../privacy/Sensitive'
+import { SosButton } from '../sos/SosButton'
 
 /** 메인 화면 우측 상단: 끊기 항목별 N일차 + 아낀 돈 + 가장 가까운 위시 */
 export function QuitCounterWidget() {
@@ -46,6 +47,10 @@ export function QuitCounterWidget() {
           </li>
         ))}
       </ul>
+
+      <div className="flex justify-end">
+        <SosButton variant="small" />
+      </div>
 
       <div className="rounded-xl bg-surface-2 p-3 text-sm">
         <p>
