@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useAuth } from '../auth/AuthContext'
 
 /**
- * 로그인은 됐지만 보안 규칙(firestore.rules / storage.rules)에 내 UID가 아직 없을 때 보여주는 안내.
+ * 로그인은 됐지만 보안 규칙(firestore.rules)에 내 UID가 아직 없을 때 보여주는 안내.
  * 1인용 앱이라 처음 한 번만 거치는 단계입니다.
  */
 export function AccessSetupPage() {
@@ -35,11 +35,11 @@ export function AccessSetupPage() {
 
       <ol className="mt-6 list-decimal space-y-2 pl-5 text-sm leading-relaxed text-muted">
         <li>
-          <code className="text-text">firestore.rules</code>와 <code className="text-text">storage.rules</code>의{' '}
-          <code className="text-text">ALLOWED_UID</code>를 위 UID로 바꾸기
+          Firebase 콘솔 → <span className="text-text">Firestore Database → 규칙</span> 탭
         </li>
         <li>
-          터미널에서 <code className="text-text">npx firebase-tools deploy --only firestore:rules,storage</code> 실행
+          저장소의 <code className="text-text">firestore.rules</code> 내용을 붙여넣고{' '}
+          <code className="text-text">ALLOWED_UID</code>를 위 UID로 바꾼 뒤 <span className="text-text">게시</span>
         </li>
         <li>이 페이지 새로고침</li>
       </ol>

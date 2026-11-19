@@ -1,6 +1,6 @@
 rules_version = '2';
 
-// firestore.rules 와 같은 UID로 'ALLOWED_UID'를 바꿔주세요.
+// 사진 기능(6단계)에서 Storage를 켤 때 사용합니다. firestore.rules 와 같은 UID로 'ALLOWED_UID'를 바꿔주세요.
 service firebase.storage {
   match /b/{bucket}/o {
     match /users/{uid}/{allPaths=**} {
