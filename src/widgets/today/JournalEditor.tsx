@@ -36,7 +36,7 @@ function JournalForm({ dateKey, entry }: { dateKey: string; entry: JournalEntry 
         save()
       }}
     >
-      <div className="flex items-center gap-1" role="radiogroup" aria-label="오늘 기분">
+      <div className="flex flex-wrap items-center gap-1 @max-3xs:gap-0" role="radiogroup" aria-label="오늘 기분">
         {MOODS.map((m) => (
           <button
             key={m.value}
@@ -46,7 +46,7 @@ function JournalForm({ dateKey, entry }: { dateKey: string; entry: JournalEntry 
             aria-label={m.label}
             title={m.label}
             onClick={() => setMood(mood === m.value ? null : m.value)}
-            className={`rounded-lg px-1.5 py-0.5 text-xl transition ${
+            className={`rounded-lg px-1.5 py-0.5 text-xl transition @max-3xs:px-1 @max-3xs:text-lg ${
               mood === m.value ? 'bg-surface-2 ring-1 ring-accent' : 'opacity-50 grayscale hover:opacity-100 hover:grayscale-0'
             }`}
           >
@@ -54,7 +54,7 @@ function JournalForm({ dateKey, entry }: { dateKey: string; entry: JournalEntry 
           </button>
         ))}
       </div>
-      <div className="flex gap-2">
+      <div className="flex gap-2 @max-3xs:flex-col">
         <input
           className={ui.input}
           value={text}

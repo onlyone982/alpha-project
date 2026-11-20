@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router'
+import { useAuth } from '../auth/AuthContext'
+import { usePrivacy } from '../privacy/PrivacyContext'
 import { ui } from '../components/ui'
 import { LEVELS, type Level } from '../content/levels'
 import { exportAll } from '../data/backup'
@@ -35,12 +37,15 @@ export function SettingsPage() {
       </Section>
 
       <Section title="🙈 프라이버시">
+        <PrivacyNow />
         <PrivacyDefault initial={profile.settings.privacyModeDefault} />
       </Section>
 
       <Section title="💾 데이터 백업" note="내 기록 전체를 파일(JSON)로 내려받아요. 사진은 아직 없어서 글자 기록만 들어가요.">
         <BackupButton />
       </Section>
+
+      <AccountSection />
     </Shell>
   )
 }
@@ -220,5 +225,28 @@ function BackupButton() {
       {state === 'done' && <span className="text-xs text-muted">받았어요.</span>}
       {state === 'error' && <span className="text-xs text-danger">백업을 만들지 못했어요. 다시 시도해주세요.</span>}
     </div>
+  )
+}
+
+/** 지금 바로 가리기/보이기 (모바일에서는 메인에 버튼이 없어서 여기서) */
+function PrivacyNow() {
+  const { privacy, toggle } = usePrivacy()
+  return (
+    <label className="flex items-center gap-2 text-sm">
+      <input type="checkbox" checked={privacy} onChange={toggle} />
+      지금 민감 항목 가리기
+    </label>
+  )
+}
+
+function AccountSection() {
+  const { user, isPreview, signOut } = useAuth()
+  return (
+    <section className={`${ui.card} flex items-center justify-between gap-3`}>
+      <p className="min-w-0 truncate text-sm text-muted">{isPreview ? '미리보기 모드' : (user?.email ?? user?.displayName ?? '')}</p>
+      <button type="button" className={ui.button} onClick={signOut}>
+        {isPreview ? '미리보기 종료' : '로그아웃'}
+      </button>
+    </section>
   )
 }

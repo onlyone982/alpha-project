@@ -16,7 +16,7 @@ export function StickyNotesWidget() {
       {notes.length === 0 ? (
         <p className="text-sm text-muted">{emptyNotes}</p>
       ) : (
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-2 gap-2 @max-3xs:grid-cols-1">
           {shown.map((note) => (
             <NoteCard key={note.id} note={note} compact />
           ))}

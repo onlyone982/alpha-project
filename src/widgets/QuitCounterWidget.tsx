@@ -30,7 +30,7 @@ export function QuitCounterWidget() {
     <div className="flex flex-col gap-4">
       <ul className="flex flex-col gap-2">
         {active.map(({ habit, stats }) => (
-          <li key={habit.id} className="flex items-baseline justify-between gap-3">
+          <li key={habit.id} className="flex items-baseline justify-between gap-3 @max-3xs:flex-col @max-3xs:gap-0">
             <Sensitive when={habit.isSensitive}>
               <span className="font-medium">
                 <span aria-hidden className="mr-1.5">
@@ -39,7 +39,7 @@ export function QuitCounterWidget() {
                 {habit.name}
               </span>
             </Sensitive>
-            <span className="shrink-0 text-right">
+            <span className="shrink-0 text-right @max-3xs:text-left">
               <span className="text-lg font-bold tabular-nums">{stats.currentDayNumber}</span>
               <span className="text-sm text-muted">일차</span>
               <span className="ml-2 text-xs text-muted tabular-nums">최고 {stats.longestDayNumber}일차</span>

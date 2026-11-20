@@ -23,7 +23,7 @@ export function LibraryWidget() {
       {items.length === 0 ? (
         <p className="text-sm text-muted">모든 위젯이 화면에 나와 있어요.</p>
       ) : (
-        <ul className="grid grid-cols-4 gap-3">
+        <ul className="grid grid-cols-4 gap-3 @max-3xs:grid-cols-2">
           {items.map((w) => (
             <li key={w.id}>
               <button type="button" onClick={() => setSelected(w)} className="group flex w-full flex-col items-center gap-1">

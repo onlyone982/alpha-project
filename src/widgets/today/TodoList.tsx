@@ -54,7 +54,7 @@ export function TodoList({ dateKey, isToday, compact = false }: { dateKey: strin
         ))}
       </ul>
 
-      <form onSubmit={handleAdd} className="flex gap-2">
+      <form onSubmit={handleAdd} className="flex gap-2 @max-3xs:flex-col">
         <input
           className={ui.input}
           value={text}
@@ -125,7 +125,12 @@ function TodoRow({
         <span className={`flex-1 text-sm ${todo.done ? 'text-muted line-through' : ''}`}>{todo.text}</span>
       )}
       {!editing && (
-        <span className={`flex shrink-0 items-center gap-0.5 text-xs text-muted ${compact ? 'opacity-0 group-hover:opacity-100 focus-within:opacity-100' : ''}`}>
+        <span
+          className={`flex shrink-0 items-center gap-0.5 text-xs text-muted ${
+            // 메인 칸에서는 마우스를 올렸을 때만. 터치 화면(모바일)에선 안 보이는 버튼을 잘못 누르지 않게 아예 숨김 → 전체 보기에서 편집
+            compact ? 'opacity-0 group-hover:opacity-100 focus-within:opacity-100 max-lg:hidden' : ''
+          }`}
+        >
           <IconButton label="위로" disabled={!canUp} onClick={() => onMove(-1)}>
             ↑
           </IconButton>
@@ -185,7 +190,7 @@ function CarryOver({ todayKey, todayTodos }: { todayKey: string; todayTodos: Tod
   return (
     <button
       type="button"
-      className="self-start rounded-lg border border-dashed border-line px-2.5 py-1 text-xs text-muted hover:border-accent hover:text-text"
+      className="self-start text-left rounded-lg border border-dashed border-line px-2.5 py-1 text-xs text-muted hover:border-accent hover:text-text"
       onClick={() => carryOverTodos(store, unfinished, todayKey, todayTodos)}
     >
       ↪ 어제 남은 할일 {unfinished.length}개 가져오기

@@ -46,11 +46,11 @@ function StyleForm({ dateKey, initial }: { dateKey: string; initial: StyleLog })
       {STYLE_FIELDS.map((field) => {
         const value = log[field.key]
         return (
-          <div key={field.key} className="grid grid-cols-[4.5rem_1fr] items-center gap-2">
+          <div key={field.key} className="grid grid-cols-[4.5rem_1fr] items-center gap-2 @max-3xs:grid-cols-1 @max-3xs:gap-1">
             <label htmlFor={`style-${field.key}`} className="text-sm text-muted">
               {field.label}:
             </label>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 @max-3xs:flex-wrap">
               <input
                 id={`style-${field.key}`}
                 list={`style-suggest-${field.key}`}

@@ -12,7 +12,7 @@ export function QuickNoteForm({ count }: { count: number }) {
 
   return (
     <form
-      className="flex gap-2"
+      className="flex gap-2 @max-3xs:flex-col"
       onSubmit={async (e) => {
         e.preventDefault()
         if (!text.trim()) return

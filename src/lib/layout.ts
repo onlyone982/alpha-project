@@ -3,16 +3,21 @@ export const SLOTS = ['tl', 'tc', 'tr', 'ml', 'mc', 'mr', 'bl', 'bc', 'br'] as c
 export type SlotId = (typeof SLOTS)[number]
 export type Layout = Record<SlotId, string>
 
-export const SLOT_INFO: Record<SlotId, { col: 1 | 2 | 3; row: 1 | 2 | 3; mobileOrder: number; label: string }> = {
-  tl: { col: 1, row: 1, mobileOrder: 2, label: '왼쪽 위' },
-  tc: { col: 2, row: 1, mobileOrder: 1, label: '가운데 위' },
-  tr: { col: 3, row: 1, mobileOrder: 3, label: '오른쪽 위' },
-  ml: { col: 1, row: 2, mobileOrder: 8, label: '왼쪽 가운데' },
-  mc: { col: 2, row: 2, mobileOrder: 5, label: '정가운데' },
-  mr: { col: 3, row: 2, mobileOrder: 6, label: '오른쪽 가운데' },
-  bl: { col: 1, row: 3, mobileOrder: 7, label: '왼쪽 아래' },
-  bc: { col: 2, row: 3, mobileOrder: 4, label: '가운데 아래' },
-  br: { col: 3, row: 3, mobileOrder: 9, label: '오른쪽 아래' },
+/**
+ * PC: col/row (3×3)
+ * 모바일 2열: mobileOrder 순서로 왼쪽→오른쪽, mobileSpan 2 는 가로 전체
+ *   [이번 주 | DAY] [메모 | List] [YouTube 전체] [나무 | 스타일] [명언 | 라이브러리]
+ */
+export const SLOT_INFO: Record<SlotId, { col: 1 | 2 | 3; row: 1 | 2 | 3; mobileOrder: number; mobileSpan: 1 | 2; label: string }> = {
+  tl: { col: 1, row: 1, mobileOrder: 1, mobileSpan: 1, label: '왼쪽 위' },
+  tc: { col: 2, row: 1, mobileOrder: 2, mobileSpan: 1, label: '가운데 위' },
+  tr: { col: 3, row: 1, mobileOrder: 4, mobileSpan: 1, label: '오른쪽 위' },
+  ml: { col: 1, row: 2, mobileOrder: 3, mobileSpan: 1, label: '왼쪽 가운데' },
+  mc: { col: 2, row: 2, mobileOrder: 5, mobileSpan: 2, label: '정가운데' },
+  mr: { col: 3, row: 2, mobileOrder: 7, mobileSpan: 1, label: '오른쪽 가운데' },
+  bl: { col: 1, row: 3, mobileOrder: 6, mobileSpan: 1, label: '왼쪽 아래' },
+  bc: { col: 2, row: 3, mobileOrder: 8, mobileSpan: 1, label: '가운데 아래' },
+  br: { col: 3, row: 3, mobileOrder: 9, mobileSpan: 1, label: '오른쪽 아래' },
 }
 
 /** 바꿀 수 없는 칸 (레벨·DAY 칸, 위젯 라이브러리 칸) */

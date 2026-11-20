@@ -48,13 +48,25 @@ body {
 }
 
 /*
- * 위젯 배치
- * - 모바일(기본): 1열, --m-order 순서대로 쌓임
- * - PC(lg 이상): 3열 그리드, --col / --row 위치에 고정
- * 위치 값은 src/widgets/registry.ts 에서 관리합니다.
+ * 위젯 배치 (칸 위치·순서는 src/lib/layout.ts 의 SLOT_INFO)
+ * - 모바일(1024px 미만): 2열, 칸마다 따로 떨어진 둥근 카드. --m-order 순서, --m-span 이 2면 가로 전체
+ * - PC(1024px 이상): 하나의 판을 빛나는 선으로 3×3 분할 (아래 .board 의 PC 부분)
  */
+.board {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
 .widget-slot {
   order: var(--m-order);
+  grid-column: span var(--m-span) / span var(--m-span);
+  border-radius: 20px;
+  border: 1px solid transparent;
+  /* 카드 테두리에 은은한 주황→파랑 빛 */
+  background:
+    linear-gradient(var(--arc-bg), var(--arc-bg)) padding-box,
+    linear-gradient(140deg, rgba(255, 122, 26, 0.5), rgba(255, 255, 255, 0.07) 45%, rgba(120, 140, 255, 0.45)) border-box;
+  box-shadow: 0 0 26px -12px rgba(255, 122, 26, 0.35);
 }
 
 @media (min-width: 1024px) {
@@ -62,6 +74,10 @@ body {
     order: 0;
     grid-column: var(--col);
     grid-row: var(--row);
+    border-radius: 0;
+    border: 0;
+    background: rgb(0 0 0 / 0.95);
+    box-shadow: none;
   }
 }
 
@@ -128,7 +144,13 @@ body {
   --arc-glow-a: rgba(255, 122, 26, 0.55);
   --arc-glow-b: rgba(120, 140, 255, 0.4);
 }
+@media (min-width: 1024px) {
+.board,
 .glow-board {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border-radius: 1.5rem;
   position: relative;
   isolation: isolate;
   background:
@@ -142,6 +164,7 @@ body {
     0 0 0 1px rgba(255, 255, 255, 0.07),
     0 0 40px -8px rgba(255, 122, 26, 0.22),
     0 0 90px -20px rgba(120, 140, 255, 0.18);
+}
 }
 @keyframes glow-drift {
   from { background-position: 0% 0%; }
@@ -160,5 +183,5 @@ body {
   background-attachment: fixed;
 }
 @media (prefers-reduced-motion: reduce) {
-  .glow-board { animation: none; }
+  .board, .glow-board { animation: none; }
 }

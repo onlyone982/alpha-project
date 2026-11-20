@@ -36,12 +36,12 @@ export function HomeWidget() {
 
   return (
     <div className="flex h-full flex-col items-center justify-between gap-4 text-center">
-      <p className="text-lg font-bold tracking-wide text-accent" title={`연속 기록 ${streak.current}일`}>
+      <p className="text-lg font-bold tracking-wide text-accent @max-3xs:text-base" title={`연속 기록 ${streak.current}일`}>
         LV: {level.name}
       </p>
 
       <div>
-        <p className="text-6xl font-black tracking-tight sm:text-7xl">
+        <p className="text-6xl font-black tracking-tight sm:text-7xl @max-3xs:text-4xl">
           Day <span className="tabular-nums">{day ?? '—'}</span>
         </p>
         {parts && (
@@ -54,7 +54,7 @@ export function HomeWidget() {
       <div className="text-sm">
         <p className="tabular-nums">
           <time dateTime={now.toISOString()}>{formatSeoul(now, 'HH:mm:ss')}</time>
-          <span className="text-muted"> / {formatSeoul(now, 'yyyy.MM.dd')} ({weekday})</span>
+          <span className="text-muted @max-3xs:block"><span className="@max-3xs:hidden"> / </span>{formatSeoul(now, 'yyyy.MM.dd')} ({weekday})</span>
         </p>
         <p className="mt-1 text-xs text-muted">
           since {startAt ? formatSeoul(startAt, 'yyyy.MM.dd HH:mm') : '―'}
@@ -78,13 +78,14 @@ export function HomeWidget() {
         <span className={chip} title={streakHint(streak.current, streak.todayRecorded)}>
           <span className={streak.todayRecorded ? '' : 'grayscale'}>🔥</span> {streak.current} · 🧊 {streak.freezes}
         </span>
-        <button type="button" onClick={toggle} aria-pressed={privacy} className={`${chip} ${privacy ? 'border-accent text-accent' : ''}`}>
+        {/* 모바일에서는 가리기·설정·로그아웃을 설정 화면으로 (설정은 맨 위 오른쪽) */}
+        <button type="button" onClick={toggle} aria-pressed={privacy} className={`${chip} max-lg:hidden ${privacy ? 'border-accent text-accent' : ''}`}>
           {privacy ? '🙈 가림' : '👀 가리기'}
         </button>
-        <Link to="/settings" className={chip}>
+        <Link to="/settings" className={`${chip} max-lg:hidden`}>
           ⚙ 설정
         </Link>
-        <button type="button" onClick={signOut} className={chip}>
+        <button type="button" onClick={signOut} className={`${chip} max-lg:hidden`}>
           {isPreview ? '미리보기 종료' : '로그아웃'}
         </button>
       </div>

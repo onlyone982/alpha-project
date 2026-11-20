@@ -62,4 +62,10 @@ describe('layout', () => {
     expect(new Set(SLOTS.map((s) => `${SLOT_INFO[s].col}-${SLOT_INFO[s].row}`)).size).toBe(9)
     expect(new Set(SLOTS.map((s) => SLOT_INFO[s].mobileOrder)).size).toBe(9)
   })
+
+  it('모바일 순서: 이번 주, DAY, 메모, List, YouTube(가로 전체), 나무, 스타일, 명언, 라이브러리', () => {
+    const order = [...SLOTS].sort((a, b) => SLOT_INFO[a].mobileOrder - SLOT_INFO[b].mobileOrder).map((s) => DEFAULT_LAYOUT[s])
+    expect(order).toEqual(['today', 'home', 'notes', 'quit', 'video', 'tree', 'style', 'quote', 'library'])
+    expect(SLOTS.filter((s) => SLOT_INFO[s].mobileSpan === 2)).toEqual(['mc'])
+  })
 })
