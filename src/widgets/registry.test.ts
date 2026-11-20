@@ -19,7 +19,7 @@ describe('위젯 레지스트리', () => {
     expect(DEFAULT_LAYOUT.br).toBe('library')
   })
 
-  it('처음 라이브러리: 계산기, 일기장, One Dollar Drive', () => {
-    expect(libraryIds(DEFAULT_LAYOUT, ids)).toEqual(['calculator', 'diary', 'onedollar'])
+  it('처음 라이브러리: 계산기, 타이머, 일기장, One Dollar Drive', () => {
+    expect(libraryIds(DEFAULT_LAYOUT, ids)).toEqual(['calculator', 'timer', 'diary', 'onedollar'])
   })
 })

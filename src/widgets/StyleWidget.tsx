@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { DateNav } from '../components/DateNav'
 import { ui } from '../components/ui'
 import { useStore } from '../data/DataStoreContext'
-import { saveStyleLog, searchLinks, STYLE_FIELDS, useStyleLog, type StyleLog } from '../data/styleRepo'
+import { saveStyleLog, searchLinks, STYLE_FIELDS, useStyleLog, useStyleSuggestions, type StyleLog } from '../data/styleRepo'
 import { useToday } from '../hooks/useToday'
 
 /** 오른쪽 가운데: <날짜> 액세서리 · 향수 · 헤어 · 화장품 · etc */
@@ -29,6 +29,7 @@ function StyleForm({ dateKey, initial }: { dateKey: string; initial: StyleLog })
   const store = useStore()
   const [log, setLog] = useState(initial)
   const [saving, setSaving] = useState(false)
+  const suggestions = useStyleSuggestions()
   const changed = STYLE_FIELDS.some((f) => log[f.key].trim() !== initial[f.key])
 
   return (
@@ -52,10 +53,17 @@ function StyleForm({ dateKey, initial }: { dateKey: string; initial: StyleLog })
             <div className="flex items-center gap-1">
               <input
                 id={`style-${field.key}`}
+                list={`style-suggest-${field.key}`}
+                autoComplete="off"
                 className={ui.input + ' py-1.5'}
                 value={value}
                 onChange={(e) => setLog({ ...log, [field.key]: e.target.value })}
               />
+              <datalist id={`style-suggest-${field.key}`}>
+                {suggestions[field.key].map((v) => (
+                  <option key={v} value={v} />
+                ))}
+              </datalist>
               {field.searchable &&
                 value.trim() &&
                 searchLinks(value.trim()).map((link) => (

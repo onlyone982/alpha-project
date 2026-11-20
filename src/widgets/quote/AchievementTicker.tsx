@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useStreak } from '../../data/activityRepo'
 import { useQuitData } from '../../data/useQuitData'
+import { useLevels } from '../../hooks/useLevels'
 import { useNow } from '../../hooks/useNow'
 import { recentAchievements } from '../../lib/achievements'
 import { toDayKey } from '../../lib/date'
@@ -16,6 +17,7 @@ export function AchievementTicker() {
   const quit = useQuitData(now)
   const { current: streakCurrent, todayRecorded } = useStreak(todayKey)
   const { privacy } = usePrivacy()
+  const levels = useLevels()
   const [index, setIndex] = useState(0)
 
   const items = useMemo(() => {
@@ -30,9 +32,10 @@ export function AchievementTicker() {
         currentStreakDays: stats.currentStreakDays,
       })),
       recordStreak: { current: streakCurrent, todayRecorded },
+      levels,
     })
     return privacy ? list.filter((a) => !a.sensitive) : list
-  }, [todayKey, quit.active, streakCurrent, todayRecorded, privacy, now])
+  }, [todayKey, quit.active, streakCurrent, todayRecorded, privacy, now, levels])
 
   useEffect(() => {
     if (items.length < 2) return

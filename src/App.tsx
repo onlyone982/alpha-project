@@ -3,6 +3,7 @@ import { RequireAuth } from './auth/RequireAuth'
 import { AppShell } from './components/AppShell'
 import { DashboardPage } from './pages/DashboardPage'
 import { LoginPage } from './pages/LoginPage'
+import { SettingsPage } from './pages/SettingsPage'
 import { WidgetDetailPage } from './pages/WidgetDetailPage'
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
       >
         <Route path="/" element={<DashboardPage />} />
         <Route path="/w/:widgetId" element={<WidgetDetailPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

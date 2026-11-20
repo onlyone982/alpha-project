@@ -1,4 +1,4 @@
-import { LEVELS } from '../content/levels'
+import { LEVELS, type Level } from '../content/levels'
 import { addDaysToKey, DAY_MS, toDayKey } from './date'
 
 /** 달성 소식으로 알려줄 일수 */
@@ -18,6 +18,8 @@ export type AchievementInput = {
     currentStreakDays: number
   }[]
   recordStreak: { current: number; todayRecorded: boolean }
+  /** 설정에서 바꾼 레벨 (없으면 기본) */
+  levels?: readonly Level[]
 }
 
 /**
@@ -49,7 +51,7 @@ export function recentAchievements(input: AchievementInput, withinDays = 7): Ach
   const m = top(current)
   if (m) list.push({ key: `streak:${m}`, text: `🔥 ${m}일 연속 기록 달성!`, dayKey: dayOfStreak(m), sensitive: false })
 
-  const level = [...LEVELS].reverse().find((l) => l.minDays > 0 && l.minDays <= current)
+  const level = [...(input.levels ?? LEVELS)].reverse().find((l) => l.minDays > 0 && l.minDays <= current)
   if (level) {
     list.push({ key: `level:${level.name}`, text: `⬆️ LV: ${level.name} 달성!`, dayKey: dayOfStreak(level.minDays), sensitive: false })
   }

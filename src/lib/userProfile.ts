@@ -16,6 +16,10 @@ export type UserProfile = {
 export type UserSettings = {
   /** 칸별 위젯 배치 { tl: 'today', ... }. 비어 있으면 기본 배치 (src/lib/layout.ts) */
   layout: Record<string, string>
+  /** 설정에서 바꾼 레벨 목록. null 이면 기본 레벨 (src/content/levels.ts) */
+  levels: { name: string; minDays: number }[] | null
+  /** 시즌별 챌린지 주제 { '2026-winter': '...' }. 없으면 기본 주제 */
+  seasonThemes: Record<string, string>
   privacyModeDefault: boolean
   theme: 'dark'
 }
@@ -30,6 +34,8 @@ export type StreakState = {
 
 export const DEFAULT_SETTINGS: UserSettings = {
   layout: {},
+  levels: null,
+  seasonThemes: {},
   privacyModeDefault: false,
   theme: 'dark',
 }

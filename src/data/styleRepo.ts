@@ -1,6 +1,8 @@
+import { useMemo } from 'react'
+import { recentDistinct } from '../lib/suggest'
 import { markRecorded } from './activityRepo'
-import { useDoc } from './hooks'
-import { asString } from './store'
+import { useCollection, useDoc } from './hooks'
+import { asString, toDate } from './store'
 import type { DataStore } from './store'
 
 /** 날짜별 스타일 기록 칸 */
@@ -36,3 +38,14 @@ export const searchLinks = (query: string) => [
   { label: 'N쇼핑', title: '네이버쇼핑에서 검색', url: `https://search.shopping.naver.com/search/all?query=${encodeURIComponent(query)}` },
   { label: 'G', title: '구글에서 검색', url: `https://www.google.com/search?q=${encodeURIComponent(query)}` },
 ]
+
+/** 칸별 자동완성 목록 (예전에 적은 값, 최근 순) */
+export function useStyleSuggestions(): Record<StyleKey, string[]> {
+  const { docs } = useCollection('styleLogs')
+  return useMemo(() => {
+    const at = (d: (typeof docs)[number]) => toDate(d.updatedAt)?.getTime() ?? 0
+    return Object.fromEntries(
+      STYLE_FIELDS.map((f) => [f.key, recentDistinct(docs.map((d) => ({ value: asString(d[f.key]), at: at(d) })))]),
+    ) as Record<StyleKey, string[]>
+  }, [docs])
+}

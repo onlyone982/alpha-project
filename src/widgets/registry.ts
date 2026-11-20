@@ -12,6 +12,7 @@ import { QuoteWidget } from './QuoteWidget'
 import { StickyNotesWidget } from './StickyNotesWidget'
 import { StyleWidget } from './StyleWidget'
 import { TodayDetail } from './today/TodayDetail'
+import { TimerWidget } from './TimerWidget'
 import { TodayWidget } from './TodayWidget'
 import { TreeWidget } from './TreeWidget'
 import type { WidgetDefinition } from './types'
@@ -34,6 +35,7 @@ export const WIDGETS: WidgetDefinition[] = [
   { id: 'tree', title: '나무 키우기', emoji: '🌳', component: TreeWidget },
   { id: 'quote', title: '좌우명 · 명언', emoji: '💬', component: QuoteWidget, detail: QuoteDetail, hideHeader: true },
   { id: 'calculator', title: '계산기', emoji: '🧮', component: CalculatorWidget, open: { kind: 'modal' } },
+  { id: 'timer', title: '타이머', emoji: '⏱️', component: TimerWidget, open: { kind: 'modal' } },
   { id: 'diary', title: '일기장', emoji: '📔', component: DiaryWidget, open: { kind: 'modal' } },
   { id: 'onedollar', title: 'One Dollar Drive', emoji: '🏎️', component: OneDollarWidget, open: { kind: 'link', url: ONE_DOLLAR_URL } },
 ]

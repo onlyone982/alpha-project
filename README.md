@@ -89,6 +89,44 @@ VITE_FIREBASE_APP_ID=1:1234567890:web:abcdef...
 내 컴퓨터의 `firestore.rules` 파일에서도 `ALLOWED_UID`를 같은 UID로 바꿔 두면 콘솔과 파일이 같아집니다.
 (터미널로 배포하고 싶다면 `npx firebase-tools login` → `npx firebase-tools use --add` → `npx firebase-tools deploy --only firestore:rules`)
 
+## 배포하기 (Firebase Hosting, 무료 요금제로 가능)
+
+처음 한 번만:
+
+```bash
+npx firebase-tools login
+```
+
+```bash
+npx firebase-tools use --add
+```
+(목록에서 `alpha-4fe11` 선택, 별칭은 `default`)
+
+배포할 때마다:
+
+```bash
+npm run build
+```
+
+```bash
+npx firebase-tools deploy --only hosting
+```
+
+> ⚠️ 보안 규칙은 콘솔에서 관리 중이므로 `--only hosting` 으로 **사이트만** 올립니다.
+> 이 저장소의 `firestore.rules` 에는 `ALLOWED_UID` 자리표시자가 남아 있을 수 있어서, 규칙까지 배포하면 콘솔에 넣어둔 내 UID 규칙을 덮어써 버립니다.
+> 규칙도 파일로 관리하고 싶다면 먼저 `firestore.rules` 의 `ALLOWED_UID` 를 내 UID로 바꾼 뒤 `--only hosting,firestore:rules` 를 쓰세요.
+
+배포가 끝나면 **https://alpha-4fe11.firebaseapp.com** 으로 들어가세요.
+(`.web.app` 주소도 되지만, 로그인 주소(authDomain)와 같은 `firebaseapp.com` 쪽이 아이폰 홈 화면 앱에서 로그인이 더 안정적입니다)
+
+### 홈 화면에 설치 (PWA)
+- **아이폰(Safari)**: 공유 버튼 → "홈 화면에 추가"
+- **안드로이드(Chrome)**: 메뉴 → "앱 설치" 또는 "홈 화면에 추가"
+- **PC(Chrome/Edge)**: 주소창 오른쪽 설치 아이콘
+- **브라우저 시작 페이지로**: 브라우저 설정 → 시작 페이지(또는 홈 버튼)에 위 주소 넣기
+
+새 버전을 배포하면 앱을 다음에 열 때 자동으로 바뀝니다.
+
 ## 폴더 구조
 
 ```

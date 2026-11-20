@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useStreak } from '../data/activityRepo'
 import { useStore } from '../data/DataStoreContext'
 import { saveLevelSeen } from '../data/profileRepo'
+import { useLevels } from '../hooks/useLevels'
 import { useToday } from '../hooks/useToday'
 import { useUserProfile } from '../hooks/useUserProfile'
 import { levelFor } from '../lib/levels'
@@ -16,7 +17,8 @@ export function LevelWatcher() {
   const streak = useStreak(todayKey)
   const { profile, loading } = useUserProfile()
   const [toast, setToast] = useState<string | null>(null)
-  const { index, level } = levelFor(streak.current)
+  const levels = useLevels()
+  const { index, level } = levelFor(streak.current, levels)
   const seen = profile?.levelSeen
 
   useEffect(() => {

@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import { Link } from 'react-router'
 import { useAuth } from '../auth/AuthContext'
 import { StartAtEditor } from '../components/StartAtEditor'
 import { streakHint } from '../content/memes'
 import { useStreak } from '../data/activityRepo'
+import { useLevels } from '../hooks/useLevels'
 import { useNow } from '../hooks/useNow'
 import { useUpdateStartAt, useUserProfile } from '../hooks/useUserProfile'
 import { formatSeoul, toDayKey } from '../lib/date'
@@ -10,7 +12,6 @@ import { dayNumber, elapsedParts } from '../lib/dayCounter'
 import { pad2 } from '../lib/format'
 import { levelFor } from '../lib/levels'
 import { usePrivacy } from '../privacy/PrivacyContext'
-import { SosButton } from '../sos/SosButton'
 
 const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토']
 
@@ -27,7 +28,8 @@ export function HomeWidget() {
   const startAt = profile?.startAt ?? null
   const day = startAt ? dayNumber(startAt, now) : null
   const parts = startAt ? elapsedParts(startAt, now) : null
-  const { level } = levelFor(streak.current)
+  const levels = useLevels()
+  const { level } = levelFor(streak.current, levels)
   const weekday = WEEKDAYS[Number(formatSeoul(now, 'i')) % 7]
 
   const chip = 'whitespace-nowrap rounded-full border border-line px-2.5 py-1 transition-colors hover:text-text'
@@ -76,10 +78,12 @@ export function HomeWidget() {
         <span className={chip} title={streakHint(streak.current, streak.todayRecorded)}>
           <span className={streak.todayRecorded ? '' : 'grayscale'}>🔥</span> {streak.current} · 🧊 {streak.freezes}
         </span>
-        <SosButton variant="small" />
         <button type="button" onClick={toggle} aria-pressed={privacy} className={`${chip} ${privacy ? 'border-accent text-accent' : ''}`}>
           {privacy ? '🙈 가림' : '👀 가리기'}
         </button>
+        <Link to="/settings" className={chip}>
+          ⚙ 설정
+        </Link>
         <button type="button" onClick={signOut} className={chip}>
           {isPreview ? '미리보기 종료' : '로그아웃'}
         </button>

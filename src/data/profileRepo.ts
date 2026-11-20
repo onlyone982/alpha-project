@@ -30,3 +30,15 @@ export function removeLegacyBadges(store: DataStore): Promise<void> {
     )
   })
 }
+
+export function saveLevels(store: DataStore, levels: { name: string; minDays: number }[] | null) {
+  return store.update('', { 'settings.levels': levels })
+}
+
+export function saveSeasonTheme(store: DataStore, seasonId: string, theme: string) {
+  return store.update('', { [`settings.seasonThemes.${seasonId}`]: theme })
+}
+
+export function savePrivacyDefault(store: DataStore, value: boolean) {
+  return store.update('', { 'settings.privacyModeDefault': value })
+}

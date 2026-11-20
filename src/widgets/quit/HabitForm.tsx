@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { ui } from '../../components/ui'
 import { HABIT_PRESETS } from '../../content/habitPresets'
 import type { HabitInput } from '../../data/habitsRepo'
+import { useNow } from '../../hooks/useNow'
 import { fromSeoulInput, toSeoulInput } from '../../lib/date'
 
 /** 끊기 항목 추가/수정 폼 */
@@ -26,12 +27,16 @@ export function HabitForm({
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  const now = useNow(30_000)
   const parsedStart = fromSeoulInput(startAt)
+  // 시작 일시는 지금보다 미래일 수 없음 (분 단위 입력이라 1분 여유)
+  const startInFuture = parsedStart !== null && parsedStart.getTime() > now.getTime() + 60_000
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!name.trim()) return setError('이름을 적어주세요.')
     if (!parsedStart) return setError('시작 일시를 확인해주세요.')
+    if (startInFuture) return setError('시작 일시는 지금보다 늦을 수 없어요.')
     setSaving(true)
     setError(null)
     try {
@@ -84,7 +89,15 @@ export function HabitForm({
 
       <label>
         <span className={ui.label}>시작 일시 (서울)</span>
-        <input type="datetime-local" className={ui.input} value={startAt} onChange={(e) => setStartAt(e.target.value)} />
+        <input
+          type="datetime-local"
+          className={ui.input}
+          value={startAt}
+          max={toSeoulInput(now)}
+          aria-invalid={startInFuture}
+          onChange={(e) => setStartAt(e.target.value)}
+        />
+        {startInFuture && <span className="mt-1 block text-xs text-danger">시작 일시는 지금보다 늦을 수 없어요.</span>}
       </label>
 
       <div className="grid grid-cols-2 gap-2">
