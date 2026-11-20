@@ -97,10 +97,18 @@ VITE_FIREBASE_APP_ID=1:1234567890:web:abcdef...
 npx firebase-tools login
 ```
 
+(프로젝트 연결은 저장소의 `.firebaserc` 에 `alpha-4fe11` 로 이미 들어 있어서 `use --add` 는 필요 없습니다)
+
+로그인했는데 "Failed to list Firebase projects" 가 나오면:
+
 ```bash
-npx firebase-tools use --add
+npx firebase-tools login --reauth
 ```
-(목록에서 `alpha-4fe11` 선택, 별칭은 `default`)
+
+```bash
+npx firebase-tools projects:list
+```
+목록에 `alpha-4fe11` 이 보이면 정상입니다. 안 보이면 Firebase 콘솔에 로그인한 것과 **다른 Google 계정**으로 로그인된 것이니, `npx firebase-tools logout` 후 콘솔과 같은 계정으로 다시 로그인하세요.
 
 배포할 때마다:
 
