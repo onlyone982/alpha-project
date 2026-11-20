@@ -2,8 +2,9 @@ import { Link } from 'react-router'
 import { useDailyQuote } from '../data/quotesRepo'
 import { useToday } from '../hooks/useToday'
 import { useUserProfile } from '../hooks/useUserProfile'
+import { AchievementTicker } from './quote/AchievementTicker'
 
-/** 메인 화면 가운데 하단: 내 좌우명 + 오늘의 명언 */
+/** 가운데 아래: 좌우명 + 오늘의 명언 + 달성 소식 */
 export function QuoteWidget() {
   const todayKey = useToday()
   const { profile } = useUserProfile()
@@ -11,7 +12,7 @@ export function QuoteWidget() {
   const motto = profile?.motto.trim()
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex h-full flex-col items-center justify-between gap-4 text-center">
       <div>
         <p className="text-xs text-muted">내 좌우명</p>
         {motto ? (
@@ -23,11 +24,12 @@ export function QuoteWidget() {
         )}
       </div>
       {quote && (
-        <figure className="border-l-2 border-accent pl-3">
+        <figure>
           <blockquote className="text-sm leading-relaxed">“{quote.text}”</blockquote>
           <figcaption className="mt-1 text-xs text-muted">— {quote.author}</figcaption>
         </figure>
       )}
+      <AchievementTicker />
     </div>
   )
 }

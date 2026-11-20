@@ -15,6 +15,8 @@ export function createPreviewSeed(now: Date): Record<string, DocData> {
       settings: { ...DEFAULT_SETTINGS },
       streak: { ...DEFAULT_STREAK },
       issueCounter: 0,
+      // 미리보기에서 레벨업 알림이 한 번 보이도록 (Doomer → NPC)
+      levelSeen: 0,
     },
     'habits/smoke': {
       name: '금연',
@@ -60,6 +62,9 @@ export function createPreviewSeed(now: Date): Record<string, DocData> {
     'notes/n2': { text: '단백질 쉐이크 주문하기', color: 'mint', pinned: false, updatedAt: ago(0, 2) },
     'notes/n3': { text: '이번 달 목표: 금주 30일 + 러닝 10회', color: 'pink', pinned: false, updatedAt: ago(2) },
     'quotes/q1': { text: '오늘 걷지 않으면 내일은 뛰어야 한다.', author: '어딘가에서 들은 말', createdAt: ago(5) },
+    [`styleLogs/${dayKey(0)}`]: { accessories: '실버 체인 목걸이', perfume: '르라보 상탈 33', hair: '투블럭 + 왁스', cosmetics: '라운드랩 선크림', etc: '' },
+    [`diary/${dayKey(1)}`]: { text: '오늘은 생각보다 버틸 만했다. 내일도 이렇게만.', updatedAt: ago(1) },
+    ...Object.fromEntries([9, 8, 6, 5, 4, 3, 2, 1].map((d) => [`treeWaterings/${dayKey(d)}`, { at: ago(d) }])),
     'wishlist/w1': { name: '향수 (우디 계열)', price: 250000, url: '', purchasedAt: null, createdAt: ago(10) },
     'wishlist/w2': { name: '러닝화', price: 129000, url: '', purchasedAt: null, createdAt: ago(9) },
   }

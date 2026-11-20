@@ -9,6 +9,7 @@ describe('parseProfile', () => {
     expect(profile.settings).toEqual(DEFAULT_SETTINGS)
     expect(profile.streak).toEqual(DEFAULT_STREAK)
     expect(profile.issueCounter).toBe(0)
+    expect(profile.levelSeen).toBeNull()
   })
 
   it('Timestamp 처럼 toDate()가 있는 값은 Date 로 바꾼다', () => {
@@ -18,8 +19,8 @@ describe('parseProfile', () => {
   })
 
   it('일부 설정만 저장돼 있어도 나머지는 기본값', () => {
-    const profile = parseProfile({ settings: { hiddenWidgets: ['notes'] } })
-    expect(profile.settings.hiddenWidgets).toEqual(['notes'])
+    const profile = parseProfile({ settings: { layout: { ml: 'calculator' } } })
+    expect(profile.settings.layout).toEqual({ ml: 'calculator' })
     expect(profile.settings.privacyModeDefault).toBe(false)
   })
 })

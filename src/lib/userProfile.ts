@@ -9,14 +9,13 @@ export type UserProfile = {
   settings: UserSettings
   streak: StreakState
   issueCounter: number
+  /** 마지막으로 레벨업 알림을 보여준 레벨 순서 (null = 아직 없음) */
+  levelSeen: number | null
 }
 
 export type UserSettings = {
-  /**
-   * 숨긴 위젯 id 목록.
-   * (명세의 enabledWidgets 대신 "숨긴 것"을 저장: 나중에 위젯이 새로 추가돼도 자동으로 보이게 하려고)
-   */
-  hiddenWidgets: string[]
+  /** 칸별 위젯 배치 { tl: 'today', ... }. 비어 있으면 기본 배치 (src/lib/layout.ts) */
+  layout: Record<string, string>
   privacyModeDefault: boolean
   theme: 'dark'
 }
@@ -30,7 +29,7 @@ export type StreakState = {
 }
 
 export const DEFAULT_SETTINGS: UserSettings = {
-  hiddenWidgets: [],
+  layout: {},
   privacyModeDefault: false,
   theme: 'dark',
 }
@@ -49,6 +48,7 @@ export function createDefaultProfile(startAt: Date | null): UserProfile {
     settings: { ...DEFAULT_SETTINGS },
     streak: { ...DEFAULT_STREAK },
     issueCounter: 0,
+    levelSeen: null,
   }
 }
 
@@ -60,6 +60,7 @@ export function parseProfile(data: DocumentData): UserProfile {
     settings: { ...DEFAULT_SETTINGS, ...(data.settings ?? {}) },
     streak: { ...DEFAULT_STREAK, ...(data.streak ?? {}) },
     issueCounter: typeof data.issueCounter === 'number' ? data.issueCounter : 0,
+    levelSeen: typeof data.levelSeen === 'number' ? data.levelSeen : null,
   }
 }
 

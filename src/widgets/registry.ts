@@ -1,57 +1,43 @@
-import type { ComponentType } from 'react'
-import { BadgeShelfWidget } from './BadgeShelfWidget'
+import { CalculatorWidget } from './CalculatorWidget'
+import { DiaryWidget } from './DiaryWidget'
+import { HomeWidget } from './HomeWidget'
+import { LibraryWidget } from './LibraryWidget'
 import { MotivationVideoWidget } from './MotivationVideoWidget'
-import { OutfitWidget } from './OutfitWidget'
+import { NotesDetail } from './notes/NotesDetail'
+import { ONE_DOLLAR_URL, OneDollarWidget } from './OneDollarWidget'
 import { QuitCounterWidget } from './QuitCounterWidget'
+import { QuitDetail } from './quit/QuitDetail'
+import { QuoteDetail } from './quote/QuoteDetail'
 import { QuoteWidget } from './QuoteWidget'
 import { StickyNotesWidget } from './StickyNotesWidget'
-import { TodayWidget } from './TodayWidget'
-import { WeeklyNewspaperWidget } from './WeeklyNewspaperWidget'
-import { WorkoutWidget } from './WorkoutWidget'
-import { QuitDetail } from './quit/QuitDetail'
+import { StyleWidget } from './StyleWidget'
 import { TodayDetail } from './today/TodayDetail'
-import { NotesDetail } from './notes/NotesDetail'
-import { BadgesDetail } from './badges/BadgesDetail'
-import { QuoteDetail } from './quote/QuoteDetail'
+import { TodayWidget } from './TodayWidget'
+import { TreeWidget } from './TreeWidget'
+import type { WidgetDefinition } from './types'
 import { VideoDetail } from './video/VideoDetail'
 
-export type WidgetDefinition = {
-  id: string
-  title: string
-  emoji: string
-  component: ComponentType
-  /** '전체 보기' 상세 화면. 아직 없으면 생략 */
-  detail?: ComponentType
-  /** PC(3열 그리드)에서의 위치. col: 1=좌, 2=가운데, 3=우 / row: 1=상단, 2=중간, 3=하단 */
-  desktop: { col: 1 | 2 | 3; row: 1 | 2 | 3 }
-  /** 모바일(1열)에서 쌓이는 순서. 작을수록 위. 히어로는 항상 맨 위라서 여기 없음 */
-  mobileOrder: number
-}
+export type { WidgetDefinition } from './types'
 
 /**
- * 메인 화면 위젯 목록.
- * 위치를 바꾸고 싶으면 desktop / mobileOrder 값만 고치면 됩니다.
+ * 모든 위젯 목록. 어느 칸에 놓일지는 src/lib/layout.ts (기본 배치) 와 사용자가 저장한 배치가 정합니다.
+ * 화면에 안 놓인 위젯은 위젯 라이브러리에 들어갑니다.
  */
 export const WIDGETS: WidgetDefinition[] = [
-  // ── 상단
-  { id: 'weekly', title: '주간지', emoji: '📰', component: WeeklyNewspaperWidget, desktop: { col: 1, row: 1 }, mobileOrder: 7 },
-  { id: 'today', title: '오늘', emoji: '✅', component: TodayWidget, detail: TodayDetail, desktop: { col: 2, row: 1 }, mobileOrder: 1 },
-  { id: 'quit', title: '끊기 카운터', emoji: '🚭', component: QuitCounterWidget, detail: QuitDetail, desktop: { col: 3, row: 1 }, mobileOrder: 2 },
-  // ── 중간
-  { id: 'notes', title: '스티커 메모', emoji: '🗒', component: StickyNotesWidget, detail: NotesDetail, desktop: { col: 1, row: 2 }, mobileOrder: 9 },
-  { id: 'video', title: '동기부여 영상', emoji: '▶️', component: MotivationVideoWidget, detail: VideoDetail, desktop: { col: 2, row: 2 }, mobileOrder: 4 },
-  { id: 'outfit', title: '오늘의 착장', emoji: '👕', component: OutfitWidget, desktop: { col: 3, row: 2 }, mobileOrder: 5 },
-  // ── 하단
-  { id: 'badges', title: '배지 진열장', emoji: '🏅', component: BadgeShelfWidget, detail: BadgesDetail, desktop: { col: 1, row: 3 }, mobileOrder: 8 },
-  { id: 'quote', title: '좌우명 & 오늘의 명언', emoji: '💬', component: QuoteWidget, detail: QuoteDetail, desktop: { col: 2, row: 3 }, mobileOrder: 3 },
-  { id: 'workout', title: '운동 기록', emoji: '💪', component: WorkoutWidget, desktop: { col: 3, row: 3 }, mobileOrder: 6 },
+  { id: 'home', title: 'LV · Day', emoji: '🔥', component: HomeWidget, hideHeader: true },
+  { id: 'library', title: '위젯 라이브러리', emoji: '🗂️', component: LibraryWidget },
+  { id: 'today', title: '이번 주', emoji: '✅', component: TodayWidget, detail: TodayDetail, hideHeader: true },
+  { id: 'quit', title: 'List', emoji: '🚭', component: QuitCounterWidget, detail: QuitDetail },
+  { id: 'notes', title: 'Sticker note', emoji: '🗒', component: StickyNotesWidget, detail: NotesDetail },
+  { id: 'video', title: 'YouTube', emoji: '▶️', component: MotivationVideoWidget, detail: VideoDetail },
+  { id: 'style', title: '스타일 기록', emoji: '🧴', component: StyleWidget, hideHeader: true },
+  { id: 'tree', title: '나무 키우기', emoji: '🌳', component: TreeWidget },
+  { id: 'quote', title: '좌우명 · 명언', emoji: '💬', component: QuoteWidget, detail: QuoteDetail, hideHeader: true },
+  { id: 'calculator', title: '계산기', emoji: '🧮', component: CalculatorWidget, open: { kind: 'modal' } },
+  { id: 'diary', title: '일기장', emoji: '📔', component: DiaryWidget, open: { kind: 'modal' } },
+  { id: 'onedollar', title: 'One Dollar Drive', emoji: '🏎️', component: OneDollarWidget, open: { kind: 'link', url: ONE_DOLLAR_URL } },
 ]
 
 export function getWidget(id: string): WidgetDefinition | undefined {
   return WIDGETS.find((widget) => widget.id === id)
-}
-
-/** 숨긴 위젯을 뺀 목록 */
-export function visibleWidgets(hiddenIds: readonly string[]): WidgetDefinition[] {
-  return WIDGETS.filter((widget) => !hiddenIds.includes(widget.id))
 }
