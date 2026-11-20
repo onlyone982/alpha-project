@@ -185,3 +185,18 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .board, .glow-board { animation: none; }
 }
+
+/*
+ * 화면 위·아래 여백
+ * 모바일: 넉넉하게 + 아이폰 노치·홈 바 영역(safe-area)만큼 더. PC: 기존처럼 1.5rem
+ */
+.page-y {
+  padding-top: calc(env(safe-area-inset-top, 0px) + 2.5rem);
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 4rem);
+}
+@media (min-width: 1024px) {
+  .page-y {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+}

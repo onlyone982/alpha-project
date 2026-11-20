@@ -8,7 +8,7 @@ export function WidgetDetailPage() {
   if (!widget) return <Navigate to="/" replace />
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-6 sm:px-6">
+    <main className="page-y mx-auto max-w-3xl px-4 sm:px-6">
       <Link to="/" className="text-sm text-muted hover:text-text">
         ← 홈으로
       </Link>
