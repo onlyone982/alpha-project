@@ -27,8 +27,10 @@ export function useQuitData(now: Date): QuitData {
       return { habit, relapses, stats: computeHabitStats(habit, relapses, now) }
     })
     const totals = sumSavings(views.map((v) => v.stats))
+    // 실패 기록이 아직 안 들어온 항목이 있으면 로딩 중 (없는 채로 계산하면 최장 기록이 부풀려짐)
+    const relapsesLoading = habits.some((h) => !(h.id in relapseMap))
     return {
-      loading: habitsLoading || wishLoading,
+      loading: habitsLoading || wishLoading || relapsesLoading,
       active: views.filter((v) => !v.habit.archived),
       archived: views.filter((v) => v.habit.archived),
       totals,

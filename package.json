@@ -12,6 +12,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "canvas-confetti": "^1.9.4",
     "date-fns": "^4.4.0",
     "date-fns-tz": "^3.2.0",
     "firebase": "^13.4.0",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.5",
+    "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^24.19.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",

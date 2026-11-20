@@ -11,6 +11,7 @@ import { WorkoutWidget } from './WorkoutWidget'
 import { QuitDetail } from './quit/QuitDetail'
 import { TodayDetail } from './today/TodayDetail'
 import { NotesDetail } from './notes/NotesDetail'
+import { BadgesDetail } from './badges/BadgesDetail'
 import { QuoteDetail } from './quote/QuoteDetail'
 import { VideoDetail } from './video/VideoDetail'
 
@@ -41,7 +42,7 @@ export const WIDGETS: WidgetDefinition[] = [
   { id: 'video', title: '동기부여 영상', emoji: '▶️', component: MotivationVideoWidget, detail: VideoDetail, desktop: { col: 2, row: 2 }, mobileOrder: 4 },
   { id: 'outfit', title: '오늘의 착장', emoji: '👕', component: OutfitWidget, desktop: { col: 3, row: 2 }, mobileOrder: 5 },
   // ── 하단
-  { id: 'badges', title: '배지 진열장', emoji: '🏅', component: BadgeShelfWidget, desktop: { col: 1, row: 3 }, mobileOrder: 8 },
+  { id: 'badges', title: '배지 진열장', emoji: '🏅', component: BadgeShelfWidget, detail: BadgesDetail, desktop: { col: 1, row: 3 }, mobileOrder: 8 },
   { id: 'quote', title: '좌우명 & 오늘의 명언', emoji: '💬', component: QuoteWidget, detail: QuoteDetail, desktop: { col: 2, row: 3 }, mobileOrder: 3 },
   { id: 'workout', title: '운동 기록', emoji: '💪', component: WorkoutWidget, desktop: { col: 3, row: 3 }, mobileOrder: 6 },
 ]

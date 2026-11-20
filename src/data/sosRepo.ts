@@ -9,7 +9,8 @@ export function addSosEvent(store: DataStore, habitId: string | null, result: So
 }
 
 /** SOS 에서 버틴 횟수 (배지 집계용) */
-export function useSosWins(): number {
-  const { docs } = useCollection('sosEvents')
-  return useMemo(() => docs.filter((d) => asString(d.result) === 'resisted' && toDate(d.at)).length, [docs])
+export function useSosWins(): { wins: number; loading: boolean } {
+  const { docs, loading } = useCollection('sosEvents')
+  const wins = useMemo(() => docs.filter((d) => asString(d.result) === 'resisted' && toDate(d.at)).length, [docs])
+  return { wins, loading }
 }
