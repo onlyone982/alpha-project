@@ -56,7 +56,8 @@ export function createMemoryStore(seed: Record<string, DocData> = {}): DataStore
       notify()
     },
     async set(docPath, data) {
-      docs.set(docPath, { ...(docs.get(docPath) ?? {}), ...structuredClone(data) })
+      // Firestore 의 merge 저장처럼 안쪽 객체까지 합침 (배열·Date 는 통째로 교체)
+      docs.set(docPath, deepMerge(structuredClone(docs.get(docPath) ?? {}), structuredClone(data)))
       notify()
     },
   }
@@ -69,4 +70,14 @@ function setIn(target: DocData, keys: string[], value: unknown) {
     node = node[key] as DocData
   }
   node[keys[keys.length - 1]] = structuredClone(value)
+}
+
+const isPlainObject = (v: unknown): v is DocData =>
+  typeof v === 'object' && v !== null && !Array.isArray(v) && !(v instanceof Date)
+
+function deepMerge(target: DocData, source: DocData): DocData {
+  for (const [key, value] of Object.entries(source)) {
+    target[key] = isPlainObject(value) && isPlainObject(target[key]) ? deepMerge(target[key] as DocData, value) : value
+  }
+  return target
 }

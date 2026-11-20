@@ -48,6 +48,7 @@ export async function exportAll(store: DataStore): Promise<string> {
   const relapses: Record<string, StoredDoc[]> = {}
   for (const habit of data.habits as StoredDoc[]) relapses[habit.id] = await readCollection(store, `habits/${habit.id}/relapses`)
   data.relapses = relapses
+  data.tips = await readOnce<DocData | null>((onData, onError) => store.subscribeDoc('meta/tips', onData, onError))
 
   return JSON.stringify({ exportedAt: new Date().toISOString(), version: 1, data: toJsonSafe(data) }, null, 2)
 }

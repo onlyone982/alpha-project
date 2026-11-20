@@ -59,4 +59,13 @@ describe('memoryStore', () => {
     store.subscribeDoc('journal/2026-11-20', (d) => (journal = d))
     expect(journal).toEqual({ text: '좋은 날', mood: 5 })
   })
+
+  it('set(merge)은 안쪽 객체까지 합친다 (Firestore 와 같게)', async () => {
+    const store = createMemoryStore()
+    await store.set('meta/tips', { seen: { a: true }, hidden: ['x'] })
+    await store.set('meta/tips', { seen: { b: true }, hidden: ['y'] })
+    let doc: unknown
+    store.subscribeDoc('meta/tips', (d) => (doc = d))
+    expect(doc).toEqual({ seen: { a: true, b: true }, hidden: ['y'] })
+  })
 })
