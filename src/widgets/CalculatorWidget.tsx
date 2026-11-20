@@ -28,11 +28,11 @@ export function CalculatorWidget() {
 
   return (
     <div className="mx-auto flex w-full max-w-64 flex-col gap-2">
-      <div className="border border-line px-3 py-2 text-right" aria-live="polite">
+      <div className="rounded-xl border border-line px-3 py-2 text-right" aria-live="polite">
         <p className="min-h-5 truncate text-xs text-muted tabular-nums">{expr || ' '}</p>
         <p className="truncate text-2xl font-bold tabular-nums">{result ?? (preview !== null ? format(preview) : '0')}</p>
       </div>
-      <div className="grid grid-cols-4 gap-px border border-line bg-line">
+      <div className="grid grid-cols-4 gap-px overflow-hidden rounded-xl border border-line bg-line">
         {KEYS.map((key) => (
           <button
             key={key}

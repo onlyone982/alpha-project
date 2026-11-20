@@ -9,7 +9,7 @@ export function OneDollarWidget() {
       rel="noreferrer"
       className="group flex h-full flex-col items-center justify-center gap-2 text-center"
     >
-      <span className="flex size-16 items-center justify-center border border-line bg-surface text-2xl font-black text-accent group-hover:border-accent">
+      <span className="flex size-16 items-center justify-center rounded-2xl border border-line bg-surface text-2xl font-black text-accent group-hover:border-accent">
         $1
       </span>
       <span className="font-bold tracking-wide">ONE DOLLAR DRIVE</span>

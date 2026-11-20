@@ -65,7 +65,7 @@ function StyleForm({ dateKey, initial }: { dateKey: string; initial: StyleLog })
                     target="_blank"
                     rel="noreferrer"
                     title={link.title}
-                    className="shrink-0 whitespace-nowrap border border-line px-1.5 py-1 text-[11px] text-muted hover:border-accent hover:text-text"
+                    className="shrink-0 whitespace-nowrap rounded-md border border-line px-1.5 py-1 text-[11px] text-muted hover:border-accent hover:text-text"
                   >
                     {link.label}
                   </a>

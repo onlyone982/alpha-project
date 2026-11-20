@@ -32,7 +32,7 @@ export function LevelWatcher() {
   if (!toast) return null
   return (
     <div className="pointer-events-none fixed inset-x-0 top-4 z-50 flex justify-center px-4" role="status" aria-live="polite">
-      <p className="ticker-in border border-accent bg-bg px-5 py-3 text-center shadow-lg">
+      <p className="ticker-in rounded-2xl border border-accent bg-bg px-5 py-3 glow-soft text-center shadow-lg">
         <span className="block text-xs tracking-widest text-accent">LEVEL UP</span>
         <span className="text-lg font-black">LV: {toast}</span>
       </p>

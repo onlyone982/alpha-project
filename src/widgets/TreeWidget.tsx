@@ -75,7 +75,7 @@ function PixelTree({ stage, wilted, hour, watering }: { stage: keyof typeof TREE
   return (
     <svg
       viewBox="0 0 16 16"
-      className="w-full max-w-48 border border-line"
+      className="w-full max-w-48 rounded-xl border border-line"
       shapeRendering="crispEdges"
       role="img"
       aria-label={`픽셀 나무${wilted ? ' (시듦)' : ''}`}

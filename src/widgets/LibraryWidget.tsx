@@ -81,7 +81,7 @@ function LibrarySheet({ widget, onClose }: { widget: WidgetDefinition; onClose: 
       {mode === 'place' && (
         <div className="flex flex-col gap-3">
           <p className="text-sm text-muted">넣을 칸을 고르세요. 원래 있던 위젯은 라이브러리로 돌아가요.</p>
-          <div className="grid grid-cols-3 gap-px border border-line bg-line">
+          <div className="grid grid-cols-3 gap-px overflow-hidden rounded-xl border border-line bg-line">
             {SLOTS.map((slot) => {
               const fixed = isFixedSlot(slot)
               const current = getWidget(layout[slot])

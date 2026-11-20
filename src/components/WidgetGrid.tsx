@@ -11,7 +11,7 @@ type SlotStyle = CSSProperties & { '--m-order': number; '--col': number; '--row'
  */
 export function WidgetGrid({ layout }: { layout: Layout }) {
   return (
-    <div className="grid grid-cols-1 gap-px border border-line bg-line lg:grid-cols-3">
+    <div className="glow-board grid grid-cols-1 gap-px overflow-hidden rounded-3xl lg:grid-cols-3">
       {SLOTS.map((slot) => {
         const info = SLOT_INFO[slot]
         const widget = layout[slot] ? getWidget(layout[slot]) : undefined
@@ -20,7 +20,7 @@ export function WidgetGrid({ layout }: { layout: Layout }) {
         return (
           <section
             key={slot}
-            className="widget-slot flex min-h-56 flex-col bg-bg p-5"
+            className="widget-slot flex min-h-56 flex-col bg-bg/95 p-5"
             style={style}
             aria-label={widget?.title ?? `${info.label} 빈 칸`}
           >

@@ -32,7 +32,7 @@ export function TodayWidget() {
     <div className="flex flex-col gap-5">
       <section>
         <h3 className="mb-2 text-sm font-semibold">이번 주 요약</h3>
-        <dl className="grid grid-cols-3 gap-px border border-line bg-line text-center">
+        <dl className="grid grid-cols-3 gap-px overflow-hidden rounded-xl border border-line bg-line text-center">
           <Stat label="기록한 날" value={`${summary.recordedDays}/${summary.daysSoFar}`} />
           <Stat label="할일 완료" value={`${summary.todoDone}/${summary.todoTotal}`} />
           <Stat label="끊기 실패" value={`${summary.relapses}회`} />

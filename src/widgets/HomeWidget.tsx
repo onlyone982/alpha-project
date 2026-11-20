@@ -30,7 +30,7 @@ export function HomeWidget() {
   const { level } = levelFor(streak.current)
   const weekday = WEEKDAYS[Number(formatSeoul(now, 'i')) % 7]
 
-  const chip = 'whitespace-nowrap border border-line px-2 py-1 transition-colors hover:text-text'
+  const chip = 'whitespace-nowrap rounded-full border border-line px-2.5 py-1 transition-colors hover:text-text'
 
   return (
     <div className="flex h-full flex-col items-center justify-between gap-4 text-center">
@@ -56,7 +56,7 @@ export function HomeWidget() {
         </p>
         <p className="mt-1 text-xs text-muted">
           since {startAt ? formatSeoul(startAt, 'yyyy.MM.dd HH:mm') : '―'}
-          <button type="button" onClick={() => setEditing((v) => !v)} className="ml-1.5 hover:text-text">
+          <button type="button" aria-label="시작 일시 수정" onClick={() => setEditing((v) => !v)} className="ml-1.5 hover:text-text">
             ✎
           </button>
         </p>

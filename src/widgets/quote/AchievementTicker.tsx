@@ -43,7 +43,7 @@ export function AchievementTicker() {
   const item = items.length ? items[index % items.length] : null
 
   return (
-    <p className="w-full truncate border border-line px-3 py-2 text-center text-sm" aria-live="polite">
+    <p className="w-full truncate rounded-full border border-line px-4 py-2 glow-soft text-center text-sm" aria-live="polite">
       {item ? <span key={item.key} className="ticker-in inline-block">나: {item.text}</span> : <span className="text-muted">이번 주 달성 소식이 여기에 올라와요.</span>}
     </p>
   )

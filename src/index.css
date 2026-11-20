@@ -118,3 +118,47 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .ticker-in { animation: none; }
 }
+
+/*
+ * 메인 판: 둥근 모서리 + 은은하게 빛나는 경계선
+ * 칸 사이 1px 틈으로 뒤의 빛(그라데이션)이 비쳐서 선이 빛나 보이는 구조.
+ * 빛 색은 --arc-glow-a / --arc-glow-b 로 바꿀 수 있습니다.
+ */
+:root {
+  --arc-glow-a: rgba(255, 122, 26, 0.55);
+  --arc-glow-b: rgba(120, 140, 255, 0.4);
+}
+.glow-board {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(60% 50% at 15% 10%, var(--arc-glow-a), transparent 70%),
+    radial-gradient(55% 55% at 85% 90%, var(--arc-glow-b), transparent 70%),
+    radial-gradient(40% 40% at 70% 20%, rgba(255, 255, 255, 0.18), transparent 70%),
+    #1b1b22;
+  background-size: 180% 180%;
+  animation: glow-drift 24s ease-in-out infinite alternate;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.07),
+    0 0 40px -8px rgba(255, 122, 26, 0.22),
+    0 0 90px -20px rgba(120, 140, 255, 0.18);
+}
+@keyframes glow-drift {
+  from { background-position: 0% 0%; }
+  to { background-position: 100% 100%; }
+}
+/* 작은 요소용 은은한 빛 */
+.glow-soft {
+  box-shadow: 0 0 24px -6px rgba(255, 122, 26, 0.25);
+}
+/* 페이지 배경에 아주 옅은 빛 번짐 */
+body {
+  background:
+    radial-gradient(900px 500px at 20% -10%, rgba(255, 122, 26, 0.07), transparent 70%),
+    radial-gradient(800px 600px at 100% 110%, rgba(120, 140, 255, 0.06), transparent 70%),
+    var(--arc-bg);
+  background-attachment: fixed;
+}
+@media (prefers-reduced-motion: reduce) {
+  .glow-board { animation: none; }
+}
